@@ -1,64 +1,68 @@
 import java.util.Scanner;
+
 public class program1
 {
-	public static void main (String[] args)
-	{
-		CharStack opstack = new CharStack();
-		Scanner scan = new Scanner(System.in);
-		String line = "";
-		char current;
+public static void main(String[] args)
+{
+	//init variables
+	CharStack opstack = new CharStack();
+	Scanner scan = new Scanner(System.in);
+	String expression = "";
+	char current;
 
-		System.out.print("Please input your infix ezpression: ");
-		line = scan.nextLine();
+	//receive input
+	System.out.println("Please input your infix expression: ");
+	expression = scan.next();
+	System.out.print("Postfix Conversion: ");
 
-		for (int i=0; i<line.length(); i++)
+	//compute
+	for (int x = 0; x < expression.length(); x++)
 		{
-			current = line.charAt(i);
+			//set pointer
+			current = expression.charAt(x);
 
+			//pointer is operand
 			if(CharStack.isOperand(current))
-			{
-				System.out.print(current);
-			}
+				{
+					System.out.print(current);
+				}//if
 			else if(CharStack.isOperator(current))
-			{
-				if(!opstack.isEmpty())
 				{
-					char top = opstack.peek();
-
-					while(CharStack.precedenceOrder(top)>= CharStack.precedenceOrder(current) && top != '(' && !opstack.isEmpty())
-					{
-						top = opstack.peek();
-						System.out.print(opstack.pop());
-					}
-				}
-				opstack.push(current);
-			}
+					if(!opstack.isEmpty())
+						{
+							char top = opstack.peek();
+							while(CharStack.precedenceOrder(top)>= CharStack.precedenceOrder(current) && top != '(' && !opstack.isEmpty())
+								{
+									top = opstack.peek();
+									System.out.print(opstack.pop());
+								}//while
+						}//if
+							opstack.push(current);
+				}//else if
 			else if(current == '(')
-			{
-				opstack.push(current);
-			}
-			else if(current == ')')
-			{
-				if(!opstack.isEmpty())
 				{
-					if(opstack.peek() == '(')
-					{
-						opstack.pop();
-					}
-					else
-					{
+					opstack.push(current);
+				}//else if
+			else if(current == ')')
+				{
+					while(!opstack.isEmpty())//while
+						{
+							if(opstack.peek() == '(')
+								{
+									opstack.rm();
+								}//if
+							else
+								{
+									System.out.print(opstack.pop());
+								}//else
+						}//while
+				}//else if
+		}//for
+	while(!opstack.isEmpty())
+				{
+					if(opstack.peek() != '(');
 						System.out.print(opstack.pop());
-					}
 				}
-			}
-		}
-		while(!opstack.isEmpty())
-		{
-			{
-				if(opstack.peek() != '(')
-					System.out.print(opstack.pop());
-			}
-		}
-		System.out.println("");
-	}
-}
+System.out.println("");
+}//main
+}//class
